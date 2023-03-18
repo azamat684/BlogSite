@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} {% endblock title %}
+
+{% block content %}
+{% include 'nav1.html' %}
+{% include 'nav2.html' %}
+<!-- page-header -->
+<header class="page-header"></header>
+<!-- end of page header -->
+
+<div class="container my-5">
+    <div class="page-container">
+        <div class="page-content">
+              
+            <div class="row"> 
+                {% for post in posts %}          
+                <div class="col-lg-6">
+                    <div class="card text-center mb-5">
+                        <div class="card-header p-0">                                   
+                            <div class="blog-media">
+                                <img src="{{ post.image.url }}" alt="rasm" class="w-100">
+                                <a href="#" class="badge badge-primary">#{{ post.category }}</a>        
+                            </div>  
+                        </div>
+                        <div class="card-body px-0">
+                            <h5 class="card-title mb-2">{{ post.title }}</h5>    
+                            <small class="small text-muted">{{ post.created }}
+                                <span class="px-2">-</span>
+                                <a href="#" class="text-muted">{{ post.comment_set.count }} Comments</a>
+                            </small>
+                            <p class="my-2">{{ post.description|truncatewords:30 }}</p>
+                        </div>
+                        
+                        <div class="card-footer p-0 text-center">
+                            <a href="{% url 'detail' post.slug %}" class="btn btn-outline-dark btn-sm">READ MORE</a>
+                        </div>                  
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+
+        <!-- Sidebar -->
+        <div class="page-sidebar text-center">
+            <h6 class="sidebar-title mt-5 mb-4">Tags</h6>
+            {% for tag in tags %}
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ post.title }} {% endblock title %}
+
+
+{% block content %}
+{% include 'nav2.html' %}
+<!-- Page Header -->
+<header class="page-header page-header-mini">
+    <h1 class="title">Voluptates Corporis Placeat</h1>
+    <ol class="breadcrumb pb-0">
+        <li class="breadcrumb-item"><a href="{% url 'list' %}">All Posts</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+    </ol>
+</header>
+<!-- End Of Page Header -->
+
+<section class="container">
+    <div class="page-container">
+        <div class="page-content">
+            <div class="card">
+                <div class="card-header pt-0">
+                    <h3 class="card-title mb-4">{{ post.title }}</h3>
+                    <div class="blog-media mb-4">
+                        <img src="{{ post.image.url }}" alt="" class="w-100">
+                        <a href="#" class="badge badge-primary">#{{ post.category }}</a> 
+                    </div>  
+                    <small class="small text-muted">
+                        <a href="#" class="text-muted">{{ post.author.username }}</a>
+                        <span class="px-2">·</span>
+                        <span>{{ post.created }}</span>
+                        <span class="px-2">·</span>
+                        <a href="#" class="text-muted">{{ post.comment_set.count }} Comment</a>
+                    </small>
+                </div>
+                <div class="card-body border-top">
+                    <p class="my-3">{{ post.description }}</p> 
+                </div>
+                
+                <div class="card-footer">
+                     <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Comments {{ post.comment_set.count }}</a></h6>
+                    <hr>
+                    {% for comment in post.comment_set.all %}
+                    <div class="media mt-5">
+                        <div class="media-body">
+                            <h6 class="mt-0">{{ comment.name }} {{ comment.email }}</h6>
+                            <p>{{ comment.text }}</p>
+                            <a href="#" class="text-dark small font-weight-bold"><i class="ti-back-right"></i> Replay</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Write Your Comment</a></h6>
+                    <hr>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-sm-6 form-group">
+                                <input type="text" name="name" class="form-control" placeholder="Name">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="col-12 form-group">
+                                <textarea name="comment" id="" cols="30" rows="10" class="form-control" placeholder="Enter Your Comment Here"></textarea>
+                            </div>
+                            <div class="form-group col-12">
+                                <button class="btn btn-primary btn-block" type="submit">Post Comment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>                  
+            </div> 
+        </div>
+        <!-- Sidebar -->
+        <div class="page-sidebar">
+            <h6 class=" ">Tags</h6>
+            {% for tag in post.tag.all %}
+            <a href="javascript:void(0)" class="badge badge-primary m-1">#{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
